@@ -17,16 +17,13 @@ public class EmailController {
     private EmailAlert emailAlert;
 
     @RequestMapping("/api/v1/notification/send-mail")
-//    public void sendMail() throws MessagingException {
-//        emailAlert.sendEmail("hansaka345@gmail.com", "Payment Confirmation", "This is a payment confirmation message!!!");
-//    }
 
-    public ResponseEntity<String> sendMail(@RequestBody EmailRequest emailRequest) throws MessagingException {
+    public ResponseEntity<EmailAlert> sendMail(@RequestBody EmailRequest emailRequest) throws MessagingException {
         try {
             emailAlert.sendEmail(emailRequest.getEmail(), emailRequest.getSubject(), emailRequest.getBody());
-            return new ResponseEntity<>("Send Email", HttpStatus.OK);
+            return new ResponseEntity<>(new EmailAlert(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed Email", HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity<>(new EmailAlert(), HttpStatus.FAILED_DEPENDENCY);
         }
     }
 
